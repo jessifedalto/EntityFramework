@@ -1,8 +1,8 @@
 public class Playlist
 {
-    public int PlaylistId { get; set; }
+    public Guid PlaylistId { get; set; } = Guid.NewGuid();
     public string PlaylistName { get; set;}
     public ICollection<Video> Videos { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

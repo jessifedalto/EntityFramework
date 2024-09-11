@@ -1,6 +1,6 @@
 public class Channel
 {
-    public int ChannelId { get; set; }
+    public Guid ChannelId { get; set; } = Guid.NewGuid();
     public string ChannelName { get; set; }
     public ChannelType ChannelType { get; set; }
     public ICollection<User> Users { get; set; }

@@ -1,9 +1,9 @@
 public class Comment
 {
-    public int CommentId { get; set; }
+    public Guid CommentId { get; set; } = Guid.NewGuid();
     public string CommentText { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; }
-    public int VideoId { get; set; }
+    public Guid VideoId { get; set; }
     public Video Video { get; set; }
 }

@@ -1,6 +1,6 @@
 public class Group
 {
-    public int GroupId { get; set; }
+    public Guid GroupId { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
     public ICollection<Permission> Permissions { get; set; }
     public ICollection<Role> Roles { get; set; }

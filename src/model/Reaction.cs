@@ -1,9 +1,9 @@
 public class Reaction
 {
-    public int ReactionId { get; set; }
+    public Guid ReactionId { get; set; } = Guid.NewGuid();
     public ReactionType ReactionType { get; set; }
-    public int VideoId { get; set; }
+    public Guid VideoId { get; set; }
     public Video Video { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

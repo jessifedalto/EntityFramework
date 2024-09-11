@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 public class Permission 
 {
-    public int PermissionId { get; set; }
+    public Guid PermissionId { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
     public ICollection<Group> Groups { get; set; }
 }

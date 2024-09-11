@@ -1,7 +1,7 @@
 public class Content
 {
-    public int ContentId { get; set; }
+    public Guid ContentId { get; set; } = Guid.NewGuid();
     public byte[] Piece { get; set; }
-    public int VideoId { get; set; }
+    public Guid VideoId { get; set; }
     public Video Video { get; set; }
 }
