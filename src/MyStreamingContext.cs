@@ -25,4 +25,12 @@ public class MyStreamingContext : DbContext
         opt.UseSqlServer("Data Source=CT-C-001YN\\SQLEXPRESS;Initial Catalog=EF;Integrated Security=True;TrustServerCertificate=True");
     }
 
+    protected override void OnModelCreating(ModelBuilder model)
+    {
+        model.Entity<User> (user => 
+        {
+            
+        
+        })
+    }
 }
