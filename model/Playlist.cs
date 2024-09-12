@@ -1,8 +1,11 @@
-public class Playlist
+namespace EntityFramework.Model
 {
-    public Guid PlaylistId { get; set; } = Guid.NewGuid();
-    public string PlaylistName { get; set;}
-    public ICollection<Video> Videos { get; set; }
-    public Guid UserId { get; set; }
-    public User User { get; set; }
+    public class Playlist
+    {
+        public Guid PlaylistId { get; set; } = Guid.NewGuid();
+        public string PlaylistName { get; set; }
+        public ICollection<Video> Videos { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+    }
 }

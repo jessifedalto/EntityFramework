@@ -1,3 +1,5 @@
+using EntityFramework.Model;
+
 public class ChannelManagement
 {
     public Guid ChannelManagementId { get; set; } = Guid.NewGuid(); 
