@@ -107,6 +107,5 @@
             // Save changes
             ctx.SaveChanges();
         }
-        Console.WriteLine("AAAA");
     }
 }

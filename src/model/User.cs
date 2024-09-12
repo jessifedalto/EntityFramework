@@ -1,5 +1,3 @@
-using Microsoft.Identity.Client;
-
 public class User
 {
     public Guid UserId { get; set; } = Guid.NewGuid();
@@ -15,6 +13,6 @@ public class User
     public ICollection<Playlist> Playlists { get; set; }
     public ICollection<Reaction> Reactions { get; set; }
     public ICollection<Comment> Comments { get; set; }
-    public ICollection<Subscribed> Subscribes { get; set;}
+    public ICollection<Subscribed> Subscribes { get; set; }
     public ICollection<ChannelManagement> ChannelManagements { get; set; }
 }
