@@ -10,11 +10,15 @@ public class UserRepository(MyStreamingContext ctx) : IUserRepository
       return user;
     }
 
-    public async void Delete(Guid guid)
+    public async Task Delete(Guid guid)
     {
         User user = await ctx.Users.FindAsync(guid);
-        ctx.Users.Remove(user);
-        await ctx.SaveChangesAsync();
+        
+        if (user is not null)
+        {
+            ctx.Users.Remove(user);
+            await ctx.SaveChangesAsync();
+        }
     }
 
     public async Task<User> GetById(Guid guid)
@@ -25,24 +29,32 @@ public class UserRepository(MyStreamingContext ctx) : IUserRepository
     public async Task<IEnumerable<Channel>> GetChannels(Guid guid)
     {
         var user = await ctx.Users.FindAsync(guid);
-        var channels = await ctx.Channels.Where(c => c.Users.Contains(user)).ToListAsync();
-        return channels;
+
+        if (user is null)
+            return new List<Channel>();
+
+        return await ctx.Channels.Where(c => c.Users.Contains(user)).ToListAsync();
     }
 
     public async Task<IEnumerable<Playlist>> GetPlaylists(Guid guid)
     {
         var user = await ctx.Users.FindAsync(guid);
-        var playlists = await ctx.Playlists.Where(p => p.User == user).ToListAsync();
-        return playlists;
+          if (user is null)
+            return new List<Playlist>();
+        
+        return await ctx.Playlists.Where(p => p.User == user).ToListAsync();
     }
 
     public async Task<IEnumerable<Subscribed>> GetSubscribed(Guid guid)
     {
         var user = await ctx.Users.FindAsync(guid);
-        var subscribes = await ctx.Subscribeds.Where(s => s.User == user).ToListAsync();
-        return subscribes;
+
+        if (user is null)
+            return new List<Subscribed>();
+        
+        return await ctx.Subscribeds.Where(s => s.User == user).ToListAsync();
     }
 
-    public async Task<User> GetUsers()
-        => await ctx.Users.All();
+    public async Task<IEnumerable<User>> GetUsers()
+        => await ctx.Users.ToListAsync();
 }
