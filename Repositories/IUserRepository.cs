@@ -1,3 +1,4 @@
+using EntityFramework.DTO;
 using EntityFramework.Model;
 
 namespace EntityFramework.Repositories;
@@ -5,7 +6,10 @@ namespace EntityFramework.Repositories;
 public interface IUserRepository
 {
     Task<User> GetById(Guid guid);
+    Task<User> GetUsers();
     Task<User> Add(User user);
-    Task<User> Delete(User user);
-    Task<User> Delete(Guid guid);
+    void Delete(Guid guid);
+    Task<IEnumerable<Channel>> GetChannels(Guid guid);
+    Task<IEnumerable<Playlist>> GetPlaylists(Guid guid);
+    Task<IEnumerable<Subscribed>> GetSubscribed(Guid guid);
 }
