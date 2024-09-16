@@ -9,6 +9,7 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetUsers();
     Task<User> Add(User user);
     Task Delete(Guid guid);
+    Task Update(Guid guid, UserDto updatedUser);
     Task<IEnumerable<Channel>> GetChannels(Guid guid);
     Task<IEnumerable<Playlist>> GetPlaylists(Guid guid);
     Task<IEnumerable<Subscribed>> GetSubscribed(Guid guid);

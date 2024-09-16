@@ -6,6 +6,6 @@ public interface IPlaylistRepository
 {
     Task<Playlist> GetById(Guid guid);
     Task<Playlist> Add(Playlist playlist);
-    Task<Video> GetVideos(Guid guid);
-    Task<Playlist> Delete(Guid guid);
+    Task<IEnumerable<Video>> GetVideos(Guid guid);
+    Task Delete(Guid guid);
 }
