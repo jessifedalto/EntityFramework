@@ -1,5 +1,6 @@
 namespace EntityFramework.Repositories;
 
+using EntityFramework.DTO;
 using EntityFramework.Model;
 
 public interface IChannelRepository
@@ -9,4 +10,5 @@ public interface IChannelRepository
     Task Delete(Guid guid);
     Task<IEnumerable<User>> GetUsers(Guid guid);
     Task<IEnumerable<Video>> GetVideos(Guid guid);
+    Task<Channel> Update(Guid guid, ChannelDto channel);
 }

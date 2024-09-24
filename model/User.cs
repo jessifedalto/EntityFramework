@@ -14,7 +14,7 @@ namespace EntityFramework.Model
         public ICollection<Channel> Channels { get; set; }
         public ICollection<Playlist> Playlists { get; set; }
         public ICollection<Reaction> Reactions { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<ChannelManagement> Comments { get; set; }
         public ICollection<Subscribed> Subscribes { get; set; }
         public ICollection<ChannelManagement> ChannelManagements { get; set; }
     }

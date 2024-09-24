@@ -1,3 +1,4 @@
+using EntityFramework.DTO;
 using EntityFramework.Model;
 using EntityFramework.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,11 @@ namespace EntityFramework.Services
         {
             Channel channel = await ctx.Channels.FindAsync(guid);
 
-            if (channel is not null)
-            {
-                ctx.Channels.Remove(channel);
-                await ctx.SaveChangesAsync();
-            }
+            if (channel is null)
+                return;
+
+            ctx.Channels.Remove(channel);
+            await ctx.SaveChangesAsync();
         }
 
         public async Task<Channel> GetById(Guid guid)
@@ -47,6 +48,11 @@ namespace EntityFramework.Services
                 return [];
 
             return await ctx.Videos.Where(v => v.ChannelId.Equals(guid)).ToListAsync();
+        }
+
+        public Task<Channel> Update(Guid guid, ChannelDto channel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

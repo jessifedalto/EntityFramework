@@ -1,3 +1,5 @@
 namespace EntityFramework.DTO;
 
-public record PlaylistDto(string PlaylistName);
+public record PlaylistDto(
+    string PlaylistName
+);
