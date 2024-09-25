@@ -8,7 +8,7 @@ namespace EntityFramework.Controllers;
 
 [ApiController]
 [Route("channel")]
-public class ChannelController(IChannelRepository repo) : ControllerBase
+public class ChannelController(IChannelRepository repo, IUserRepository userRepo) : ControllerBase
 {
     [HttpGet("{guid}")]
     public async Task<ActionResult> GetById(Guid guid)
@@ -55,5 +55,20 @@ public class ChannelController(IChannelRepository repo) : ControllerBase
         var videos = await repo.GetVideos(guid);
 
         return Ok(videos);
+    }
+
+    [HttpPatch("user/{guid}/{userGuid}")]
+    public async Task<ActionResult> AddUser(Guid guid, Guid userGuid)
+    {
+        var channel = await repo.GetById(guid);
+
+        var user = await userRepo.GetById(userGuid);
+
+        if (channel is null || user is null)
+            return BadRequest("Os ids são obrigatórios");
+
+        await repo.AddUser(channel, user);
+
+        return Ok(channel);
     }
 }

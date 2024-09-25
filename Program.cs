@@ -11,7 +11,21 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MyStreamingContext>();
 
+builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
+builder.Services.AddScoped<IChannelManagementRepository, ChannelManagementRepository>();
+builder.Services.AddScoped<IChannelPermissionRepository, ChannelPermissionRepository>();
+builder.Services.AddScoped<IChannelRoleRepository, ChannelRoleRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IContentRepository, ContentRepository>();
+builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ISubscribedRepository, SubscribedRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+
 
 var app = builder.Build();
 

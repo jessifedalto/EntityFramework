@@ -54,5 +54,16 @@ namespace EntityFramework.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Channel> AddUser(Channel channel, User user)
+        {
+            channel.Users.Add(user);
+
+            ctx.Channels.Update(channel);
+
+            await ctx.SaveChangesAsync();
+
+            return channel;
+        }
     }
 }

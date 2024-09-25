@@ -1,28 +1,33 @@
 using EntityFramework.DTO;
 using EntityFramework.Repositories;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EntityFramework.Services
 {
     public class ChannelManagementRepository(MyStreamingContext ctx) : IChannelManagementRepository
     {
-        public Task<ChannelManagement> Add(ChannelManagement channelManagement)
+        public async Task<ChannelManagement> Add(ChannelManagement channelManagement)
         {
-            throw new NotImplementedException();
+            await ctx.AddAsync(channelManagement);
+            await ctx.SaveChangesAsync();
+            return channelManagement;
         }
 
-        public Task Delete(Guid guid)
+        public async Task Delete(Guid guid)
         {
-            throw new NotImplementedException();
+            ChannelManagement channelManagement = await ctx.ChannelManagements.FindAsync(guid);
+
+            if (channelManagement is not null)
+            {
+                ctx.ChannelManagements.Remove(channelManagement);
+                await ctx.SaveChangesAsync();
+            }
         }
 
-        public Task<ChannelManagement> GetById(Guid guid)
+        public async Task<ChannelManagement> GetById(Guid guid)
         {
-            throw new NotImplementedException();
+            return await ctx.ChannelManagements.FindAsync(guid);
         }
 
-        public Task<ChannelManagement> Update(Guid guid, ChannelManagementDto channelManagement)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

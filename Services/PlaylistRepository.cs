@@ -1,3 +1,4 @@
+using EntityFramework.DTO;
 using EntityFramework.Model;
 using EntityFramework.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -35,5 +36,10 @@ public class PlaylistRepository(MyStreamingContext ctx) : IPlaylistRepository
             return [];
 
         return await ctx.Videos.Where(v => v.Playlists.Contains(playlist)).ToListAsync();
+    }
+
+    public Task<Playlist> Update(Guid guid, PlaylistDto playlistDto)
+    {
+        throw new NotImplementedException();
     }
 }

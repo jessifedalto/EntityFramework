@@ -11,4 +11,5 @@ public interface IChannelRepository
     Task<IEnumerable<User>> GetUsers(Guid guid);
     Task<IEnumerable<Video>> GetVideos(Guid guid);
     Task<Channel> Update(Guid guid, ChannelDto channel);
+    Task<Channel> AddUser(Channel channel, User user);
 }

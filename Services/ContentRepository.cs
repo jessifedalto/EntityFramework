@@ -1,3 +1,4 @@
+using EntityFramework.DTO;
 using EntityFramework.Model;
 using EntityFramework.Repositories;
 
@@ -26,6 +27,11 @@ namespace EntityFramework.Services
         public async Task<Content> GetById(Guid guid)
         {
             return await ctx.Contents.FindAsync(guid);
+        }
+
+        public Task<Content> Update(Guid guid, ContentDto contentDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

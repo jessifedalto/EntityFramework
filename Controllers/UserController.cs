@@ -8,11 +8,13 @@ namespace EntityFramework.Controllers;
 
 [ApiController]
 [Route("user")]
-public class UserController(IUserRepository repo) : ControllerBase
+public class UserController(IUserRepository repo, IRoleRepository roleRepo) : ControllerBase
 {
     [HttpPost("add")]
     public async Task<ActionResult> CreateUser(UserDto payload)
     {
+        var role = await roleRepo.GetById(payload.RoleId);
+     
         var user = new User
         {
             Name = payload.Name,
@@ -21,7 +23,8 @@ public class UserController(IUserRepository repo) : ControllerBase
             Email = payload.Email,
             Password = payload.Password,
             UserRole = payload.UserRole,
-            RoleId = payload.RoleId
+            RoleId = payload.RoleId,
+            Role = role
         };
 
         await repo.Add(user);
@@ -30,9 +33,16 @@ public class UserController(IUserRepository repo) : ControllerBase
     }
 
     [HttpDelete("delete/{guid}")]
-    public async Task Delete(Guid guid)
+    public async Task<ActionResult> Delete(Guid guid)
     {
+        var user = await repo.GetById(guid);
+
+        if (user == null)
+            return NotFound(new{message = "Usuário não encontrado."});
+
         await repo.Delete(guid);
+        
+        return Ok(new {message = "Usuário deletado com sucesso"});
     }
 
     [HttpGet("{guid}")]
