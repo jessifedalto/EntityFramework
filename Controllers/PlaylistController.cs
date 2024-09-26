@@ -8,7 +8,7 @@ namespace EntityFramework.Controllers;
 
 [ApiController]
 [Route("playlist")]
-public class PlaylistController(IPlaylistRepository repo) : ControllerBase
+public class PlaylistController(IPlaylistRepository repo, IUserRepository userRepo) : ControllerBase
 {
     [HttpGet("{guid}")]
     public async Task<ActionResult> GetById(Guid guid)
@@ -16,17 +16,23 @@ public class PlaylistController(IPlaylistRepository repo) : ControllerBase
         var playlist = await repo.GetById(guid);
 
         if (playlist is null)
-            return NotFound();
+            return NotFound(new{message = "Playlist não encontrada."});
 
         return Ok(playlist);
     }
 
-    [HttpPost("add")]
-    public async Task<ActionResult> CreateChannel(PlaylistDto payload)
+    [HttpPost("add/{guid}")]
+    public async Task<ActionResult> CreatePlaylist(Guid guid, PlaylistDto payload)
     {
+        var user = await userRepo.GetById(guid);
+
+        if (user is null)
+            return NotFound(new {message = "Usuário não encontrado"});
+
         var playlist = new Playlist
         {
-            PlaylistName = payload.PlaylistName
+            PlaylistName = payload.PlaylistName,
+            UserId = user.UserId
         };
 
         await repo.Add(playlist);

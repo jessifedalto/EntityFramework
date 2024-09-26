@@ -1,8 +1,12 @@
-using EntityFramework.Model;
+using System.Text.Json.Serialization;
 
-public class ChannelRole
+namespace EntityFramework.Model
 {
-    public Guid ChannelRoleId { get; set;} = Guid.NewGuid();
-    public ICollection<ChannelPermission> ChannelPermissions { get; set;}
-    public ICollection<ChannelManagement> ChannelManagements { get; set;}
+    public class ChannelRole
+    {
+        public Guid ChannelRoleId { get; set; } = Guid.NewGuid();
+        [JsonIgnore]
+        public ICollection<ChannelPermission> ChannelPermissions { get; set; }
+        public ICollection<ChannelManagement> ChannelManagements { get; set; }
+    }
 }

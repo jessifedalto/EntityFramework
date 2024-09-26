@@ -10,7 +10,6 @@ namespace EntityFramework.Model
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
         [JsonIgnore]
-
         public ICollection<Video> Videos { get; set; }
         [JsonIgnore]
         public ICollection<Subscribed> Subscribes { get; set; }

@@ -1,6 +1,7 @@
 namespace EntityFramework.Repositories;
 
 using EntityFramework.DTO;
+using EntityFramework.Model;
 
 public interface IChannelRoleRepository
 {

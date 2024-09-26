@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace EntityFramework.Model
 {
     public class User
@@ -11,11 +13,17 @@ namespace EntityFramework.Model
         public UserRole UserRole { get; set; }
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
+        [JsonIgnore]
         public ICollection<Channel> Channels { get; set; }
+        [JsonIgnore]
         public ICollection<Playlist> Playlists { get; set; }
+        [JsonIgnore]
         public ICollection<Reaction> Reactions { get; set; }
+        [JsonIgnore]
         public ICollection<Comment> Comments { get; set; }
+        [JsonIgnore]
         public ICollection<Subscribed> Subscribes { get; set; }
+        [JsonIgnore]
         public ICollection<ChannelManagement> ChannelManagements { get; set; }
     }
 }

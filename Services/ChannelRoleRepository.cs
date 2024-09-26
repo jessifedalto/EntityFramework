@@ -1,4 +1,5 @@
 using EntityFramework.DTO;
+using EntityFramework.Model;
 using EntityFramework.Repositories;
 
 namespace EntityFramework.Services

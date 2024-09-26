@@ -1,4 +1,5 @@
 using EntityFramework.DTO;
+using EntityFramework.Model;
 using EntityFramework.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
