@@ -20,7 +20,7 @@ public class MyStreamingContext : DbContext
     public DbSet<ChannelManagement> ChannelManagements { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder opt)
     {
-        opt.UseSqlServer("Data Source=CT-C-001YN\\SQLEXPRESS;Initial Catalog=EF;Integrated Security=True;TrustServerCertificate=True");
+        opt.UseSqlServer("Data Source=CA-C-00651\\SQLEXPRESS;Initial Catalog=EF;Integrated Security=True;TrustServerCertificate=True");
     }
 
     protected override void OnModelCreating(ModelBuilder model)

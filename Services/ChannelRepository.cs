@@ -57,13 +57,31 @@ namespace EntityFramework.Services
 
         public async Task<Channel> AddUser(Channel channel, User user)
         {
+            if (channel.Users == null || channel.Users.Count == 0)
+                channel.Users = [];
+
             channel.Users.Add(user);
+
+            ctx.Channels.Update(channel);
+            await ctx.SaveChangesAsync();
+
+            return channel;
+        }
+
+        public async Task<Channel> AddVideo(Channel channel, Video video)
+        {
+            channel.Videos.Add(video);
 
             ctx.Channels.Update(channel);
 
             await ctx.SaveChangesAsync();
 
             return channel;
+        }
+
+        public async Task<IEnumerable<Channel>>GetChannels()
+        {
+            return await ctx.Channels.ToListAsync();
         }
     }
 }

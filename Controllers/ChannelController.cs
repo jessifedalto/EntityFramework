@@ -8,7 +8,7 @@ namespace EntityFramework.Controllers;
 
 [ApiController]
 [Route("channel")]
-public class ChannelController(IChannelRepository repo, IUserRepository userRepo) : ControllerBase
+public class ChannelController(IChannelRepository repo, IUserRepository userRepo, IVideoRepository videoRepo) : ControllerBase
 {
     [HttpGet("{guid}")]
     public async Task<ActionResult> GetById(Guid guid)
@@ -21,9 +21,25 @@ public class ChannelController(IChannelRepository repo, IUserRepository userRepo
         return Ok(channel);
     }
 
-    [HttpPost("add")]
-    public async Task<ActionResult> CreateChannel(ChannelDto payload)
+    [HttpPost("add/{guid}")]
+    public async Task<ActionResult> CreateChannel(Guid guid, ChannelDto payload)
     {
+        if (payload == null)
+            return BadRequest(new { message = "Payload não pode ser nulo" });
+
+        User user = await userRepo.GetById(guid);
+
+        if (user is null)
+            return NotFound(new { message = "Usuário não encontrado" });
+
+        var channels = await repo.GetChannels();
+
+        foreach (var ch in channels)
+        {
+            if (ch.ChannelName.Equals(payload.ChannelName))
+                return Conflict(new{message = "Já existe um canal com esse nome"});
+        }
+
         var channel = new Channel
         {
             ChannelName = payload.ChannelName,
@@ -31,6 +47,8 @@ public class ChannelController(IChannelRepository repo, IUserRepository userRepo
         };
 
         await repo.Add(channel);
+
+        await repo.AddUser(channel, user);
 
         return Ok(channel);
     }
@@ -64,11 +82,33 @@ public class ChannelController(IChannelRepository repo, IUserRepository userRepo
 
         var user = await userRepo.GetById(userGuid);
 
-        if (channel is null || user is null)
-            return BadRequest("Os ids são obrigatórios");
+        if (channel is null)
+            return NotFound(new{message = "Canal não encontrado"});
+
+        if (user is null)
+            return BadRequest(new {message = "Usuário não encontrado"});
 
         await repo.AddUser(channel, user);
 
         return Ok(channel);
+    }
+
+    [HttpPatch("video/{guid}/{videoGuid}")]
+    public async Task<ActionResult> AddVideo(Guid guid, Guid videoGuid)
+    {
+        var channel = await repo.GetById(guid);
+
+        var video = await videoRepo.GetById(videoGuid);
+
+        if (channel is null)
+            return NotFound(new { message = "Canal não encontrado" });
+
+        if (video is null)
+            return NotFound(new { message = "Video não encontrado" });
+
+        await repo.AddVideo(channel, video);
+
+        return Ok(channel);
+
     }
 }
