@@ -109,6 +109,5 @@ public class ChannelController(IChannelRepository repo, IUserRepository userRepo
         await repo.AddVideo(channel, video);
 
         return Ok(channel);
-
     }
 }

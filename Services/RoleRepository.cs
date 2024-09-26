@@ -16,9 +16,9 @@ namespace EntityFramework.Services
             throw new NotImplementedException();
         }
 
-        public Task<Role> GetById(Guid guid)
+        public async Task<Role> GetById(Guid guid)
         {
-            throw new NotImplementedException();
+            return await ctx.Roles.FindAsync(guid);
         }
 
         public Task<Role> Update(Guid guid, RoleDto roleDto)

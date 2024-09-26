@@ -29,6 +29,14 @@ public class PlaylistController(IPlaylistRepository repo, IUserRepository userRe
         if (user is null)
             return NotFound(new {message = "Usuário não encontrado"});
 
+        var playlists = await userRepo.GetPlaylists(guid);
+
+        foreach (var pl in playlists)
+        {
+            if (pl.PlaylistName == payload.PlaylistName)
+                return Conflict(new{message = "Já tem uma playlist com esse nome cadastrada"});
+        }
+
         var playlist = new Playlist
         {
             PlaylistName = payload.PlaylistName,
@@ -41,9 +49,16 @@ public class PlaylistController(IPlaylistRepository repo, IUserRepository userRe
     }
 
     [HttpDelete("{guid}")]
-    public async Task Delete(Guid guid)
+    public async Task<ActionResult> Delete(Guid guid)
     {
-        await repo.Delete(guid);
+        var playlist = await repo.GetById(guid);
+
+        if (playlist is null)
+            return NotFound(new {message = "Playlist não encontrada."});
+        
+        await repo.Delete(playlist);
+
+        return Ok(new{message = "Playlist deletada com sucesso."});
     }
 
     [HttpGet("videos/{guid}")]

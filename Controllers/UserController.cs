@@ -1,3 +1,4 @@
+using Azure.Core;
 using EntityFramework.DTO;
 using EntityFramework.Model;
 using EntityFramework.Repositories;
@@ -14,6 +15,9 @@ public class UserController(IUserRepository repo, IRoleRepository roleRepo) : Co
     public async Task<ActionResult> CreateUser(UserDto payload)
     {
         var role = await roleRepo.GetById(payload.RoleId);
+
+        if (role is null)
+            return NotFound(new{message = "Cargo não encontrado"});
      
         var user = new User
         {
@@ -29,7 +33,7 @@ public class UserController(IUserRepository repo, IRoleRepository roleRepo) : Co
 
         await repo.Add(user);
 
-        return Ok(user);
+        return Ok(new{message = "Usuário criado com sucesso", response = user});
     }
 
     [HttpDelete("delete/{guid}")]
@@ -51,9 +55,9 @@ public class UserController(IUserRepository repo, IRoleRepository roleRepo) : Co
         var user = await repo.GetById(guid);
 
         if (user is null)
-            return NotFound();
+            return NotFound(new{message = "Usuário não encontrado."});
 
-        return Ok(user);
+        return Ok(new {message = "Usuário encontrado com sucesso.", response = user});
 
     }
 

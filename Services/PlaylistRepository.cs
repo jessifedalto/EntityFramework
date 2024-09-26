@@ -12,10 +12,8 @@ public class PlaylistRepository(MyStreamingContext ctx) : IPlaylistRepository
         return playlist;
     }
 
-    public async Task Delete(Guid guid)
+    public async Task Delete(Playlist playlist)
     {
-        Playlist playlist = await ctx.Playlists.FindAsync(guid);
-
         if (playlist is not null)
         {
             ctx.Playlists.Remove(playlist);
