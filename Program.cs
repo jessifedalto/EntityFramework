@@ -1,10 +1,4 @@
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-
-using EntityFramework.Model;
-using System.Linq.Expressions;
 using System.Net;
-
 using YoutubeExplode;
 using EntityFramework.Repositories;
 using EntityFramework.Services;
@@ -18,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<HttpClient>(p =>
+builder.Services.AddSingleton<HttpClient>(p =>
 {
     var proxy = new WebProxy
     {
@@ -36,23 +30,23 @@ builder.Services.AddScoped<HttpClient>(p =>
     var httpClientHandler = new HttpClientHandler
     {
         Proxy = proxy,
+        UseProxy = true,
+        PreAuthenticate = true
     };
 
     // Finally, create the HTTP client object
     var client = new HttpClient(handler: httpClientHandler, disposeHandler: true);
+    
+    
     return client;
 });
 
-builder.Services.AddScoped(p =>
-{
-    var client = p.GetService<HttpClient>();
-    if (client is null)
-        throw new Exception();
 
+builder.Services.AddSingleton<YoutubeClient>(p =>
+{
+    var client = p.GetRequiredService<HttpClient>();
     return new YoutubeClient(client);
 });
-
-builder.Services.AddDbContext<MyStreamingContext>();
 
 builder.Services.AddCors(op => op
     .AddPolicy("main", policy => policy
@@ -79,8 +73,6 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISubscribedRepository, SubscribedRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
-
-
 
 var app = builder.Build();
 

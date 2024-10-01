@@ -1,6 +1,5 @@
 using EntityFramework.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 public class MyStreamingContext : DbContext
 {

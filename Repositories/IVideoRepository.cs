@@ -9,4 +9,5 @@ public interface IVideoRepository
     Task<Video> Add(Video video);
     Task Delete(Guid guid);
     Task<Video> Update(Guid guid, VideoDto videoDto);
+    Task ProcessYoutubeVideo(string videoUrl, string videoId);
 }

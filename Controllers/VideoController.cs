@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using EntityFramework.Model;
-using System.IO;    
+using System.IO;
 using EntityFramework.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using YoutubeExplode;
@@ -10,24 +10,38 @@ using Microsoft.AspNetCore.Cors;
 namespace EntityFramework.Controllers;
 [ApiController]
 [Route("video")]
- [EnableCors("main")]
+[EnableCors("main")]
 public class VideoController(IVideoRepository videoRepo, YoutubeClient youtube, IContentRepository contentRepo) : ControllerBase
 {
     [HttpPost("{id}")]
     public async Task<IActionResult> UploadContent(string id)
     {
-        string url = $"www.youtube.com/watch?v={id}";
+        string url = $"http://www.youtube.com/watch?v={id}&spf=prefetch";
         if (string.IsNullOrWhiteSpace(url))
             return BadRequest("URL do vídeo é inválida.");
 
-        await ProcessYoutubeVideo(url, id);
+        System.Console.WriteLine(url);
+        await videoRepo.ProcessYoutubeVideo(url, id);
         return Ok("Vídeo processado e armazenado com sucesso.");
     }
-    public async Task ProcessYoutubeVideo(string videoUrl, string videoId)
+      public async Task ProcessYoutubeVideo(string videoUrl, string videoId)
     {
         var video = await youtube.Videos.GetAsync(videoId);
         var streamManifest = await youtube.Videos.Streams.GetManifestAsync(videoId);
+
+        if (streamManifest == null)
+        {
+            Console.WriteLine("Manifesto de stream não encontrado.");
+            return;
+        }
+
         var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestBitrate();
+        System.Console.WriteLine(streamInfo);
+        if (streamInfo.Url == null)
+        {
+            Console.WriteLine("Nenhum stream disponível.");
+            return;
+        }
 
         var videoFilePath = Path.Combine(Path.GetTempPath(), $"{videoUrl}.mp4");
 
